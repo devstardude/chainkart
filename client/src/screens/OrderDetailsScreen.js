@@ -79,6 +79,9 @@ const OrderDetailsScreen = ({ match, history }) => {
   };
 
   const deliverHandler = () => {
+    // Here mint the NFT and give it to the user
+    // user wallet address is order.shippingAddress.walletAddress
+
     dispatch(deliverOrder(order));
   };
 

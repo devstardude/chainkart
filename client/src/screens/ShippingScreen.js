@@ -15,7 +15,7 @@ const ShippingScreen = ({ history }) => {
   const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
   const [country, setCountry] = useState(shippingAddress.country);
   const [walletAddress, setWalletAddress] = useState(
-    "Click here to Connect wallet"
+    "0x123"
   );
 
   const submitHandler = (e) => {
