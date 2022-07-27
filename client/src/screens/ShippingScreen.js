@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Button, Form } from 'react-bootstrap';
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Button, Form } from "react-bootstrap";
 
-import FormContainer from '../components/FormContainer';
-import { saveShippingAddress } from '../store/actions/cartActions';
-import CheckoutSteps from '../components/CheckoutSteps';
+import FormContainer from "../components/FormContainer";
+import { saveShippingAddress } from "../store/actions/cartActions";
+import CheckoutSteps from "../components/CheckoutSteps";
 
 const ShippingScreen = ({ history }) => {
   const { shippingAddress } = useSelector((state) => state.cart);
@@ -14,11 +14,26 @@ const ShippingScreen = ({ history }) => {
   const [city, setCity] = useState(shippingAddress.city);
   const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
   const [country, setCountry] = useState(shippingAddress.country);
+  const [walletAddress, setWalletAddress] = useState(
+    "Click here to Connect wallet"
+  );
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(saveShippingAddress({ address, city, postalCode, country }));
-    history.push('/payment');
+    if (walletAddress === "Click here to Connect wallet") {
+      alert("Please connect wallet");
+    } else {
+      dispatch(
+        saveShippingAddress({
+          address,
+          city,
+          postalCode,
+          country,
+          walletAddress,
+        })
+      );
+      history.push("/payment");
+    }
   };
 
   return (
@@ -64,6 +79,22 @@ const ShippingScreen = ({ history }) => {
             required
             value={country}
             onChange={(e) => setCountry(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        {/* USER CONNECT WALLET BUTTON */}
+
+        <Form.Group controlId="wallet">
+          <Form.Label>Wallet Address</Form.Label>
+          <Form.Control
+            style={{ cursor: "pointer" }}
+            type="text"
+            placeholder="Connect wallet"
+            required
+            value={walletAddress}
+            onClick={() => {
+              alert("wallet button clicked");
+            }}
           ></Form.Control>
         </Form.Group>
         <Button type="submit" variant="primary">

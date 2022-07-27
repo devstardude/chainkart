@@ -1,9 +1,10 @@
-import asyncHandler from 'express-async-handler';
-import Order from '../models/order.js';
+import asyncHandler from "express-async-handler";
+import Order from "../models/order.js";
 
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
+    walletAddress,
     shippingAddress,
     paymentMethod,
     itemsPrice,
@@ -14,7 +15,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
   if (orderItems && orderItems.length === 0) {
     res.status(400);
-    throw new Error('No order items');
+    throw new Error("No order items");
   } else {
     const order = new Order({
       orderItems,
@@ -34,15 +35,15 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
 const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate({
-    path: 'user',
-    select: 'name email',
+    path: "user",
+    select: "name email",
   }); //bug fixed :)
 
   if (order) {
     res.json(order);
   } else {
     res.status(404);
-    throw new Error('Order not found');
+    throw new Error("Order not found");
   }
 });
 
@@ -61,7 +62,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     res.json(updatedOrder);
   } else {
     res.status(404);
-    throw new Error('Order not found');
+    throw new Error("Order not found");
   }
 });
 
@@ -75,7 +76,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
     res.json(updatedOrder);
   } else {
     res.status(404);
-    throw new Error('Order not found');
+    throw new Error("Order not found");
   }
 });
 
@@ -89,7 +90,7 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // route: GET /api/orders
 
 const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate('user', 'id name');
+  const orders = await Order.find({}).populate("user", "id name");
   res.json(orders);
 });
 
