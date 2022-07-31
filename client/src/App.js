@@ -1,11 +1,14 @@
-import React, { Suspense } from 'react';
+import React, { Suspense,useState,useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { Contract } from "@ethersproject/contracts";
+import {addresses,abis } from "./contracts/src/index.js"
 
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Loader from './components/Loader';
 import HomeScreen from './screens/HomeScreen';
+import WalletButton from './components/connectButtons/walletButton'; // use to connect wallet
 
 const CartScreen = React.lazy(() => import('./screens/CartScreen'));
 const LoginScreen = React.lazy(() => import('./screens/LoginScreen'));
@@ -28,10 +31,17 @@ const ProductEditScreen = React.lazy(() =>
 );
 const OrderListScreen = React.lazy(() => import('./screens/OrderListScreen'));
 
+
+
 const App = () => {
+  const contract = new Contract(addresses.WarAddress, abis.warranty);
+  console.log(contract);
+
   return (
+
     <BrowserRouter>
       <Header />
+      
       <main className="py-3">
         <Container>
           <Route
@@ -170,7 +180,9 @@ const App = () => {
             exact
           />
         </Container>
+      
       </main>
+
       <Footer />
     </BrowserRouter>
   );
